@@ -1,0 +1,46 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.aymane.minimilitia2026'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.aymane.minimilitia2026'
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName '1.0'
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled false
+        }
+    }
+
+    sourceSets {
+        main {
+            assets.srcDirs = ['src/main/assets']
+        }
+    }
+}
+
+tasks.register("syncWebAssets", Copy) {
+    from(rootProject.projectDir) {
+        include "index.html"
+        include "css/**"
+        include "js/**"
+        include "images/**"
+        include "audio/**"
+    }
+    into("$projectDir/src/main/assets")
+}
+
+tasks.named("preBuild").configure {
+    dependsOn("syncWebAssets")
+}
